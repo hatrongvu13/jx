@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.14_7-jdk-ubi9-minimal
+FROM openjdk:17
 
 LABEL authors="hatrongvu"
 
