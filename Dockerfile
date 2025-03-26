@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim-bullseye
 LABEL authors="hatrongvu"
 
 WORKDIR /opt/service
