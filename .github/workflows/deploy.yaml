@@ -27,20 +27,19 @@ jobs:
           echo "<settings><servers><server><id>github</id><username>${{ github.actor }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
           mvn clean package -DskipTests
 
-      - name: Set up QEMU for multi-platform builds
-        uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # Sử dụng GITHUB_TOKEN mặc định
       - name: Build and push multi-arch Docker image to GHCR
         run: |
           REPO_NAME=${{ github.event.repository.name }}
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/$REPO_NAME
-          docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 \
             -t $IMAGE_NAME:latest \
             -t $IMAGE_NAME:${{ github.sha }} \
