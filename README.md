@@ -1,2 +1,3 @@
 # jx
-Java from zero to hero
+
+Java GraphQl
