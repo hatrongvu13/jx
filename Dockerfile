@@ -1,4 +1,5 @@
-FROM openjdk:17-jdk-slim-bullseye
+FROM eclipse-temurin:17.0.14_7-jdk-ubi9-minimal
+
 LABEL authors="hatrongvu"
 
 WORKDIR /opt/service
