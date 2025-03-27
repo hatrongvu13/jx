@@ -34,8 +34,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install lib Maven
-        run: mvn install:install-file -Dfile='./lib/grpc-proto-0.0.1.jar' -DgroupId='com.xxx' -DartifactId='grpc-proto' -Dversion='0.0.1' -Dpackaging='jar' -DgeneratePom='true'
+#      - name: Install lib Maven
+#        run: mvn install:install-file -Dfile='./lib/grpc-proto-0.0.1.jar' -DgroupId='com.xxx' -DartifactId='grpc-proto' -Dversion='0.0.1' -Dpackaging='jar' -DgeneratePom='true'
 
       - name: Build with Maven
         run: |
