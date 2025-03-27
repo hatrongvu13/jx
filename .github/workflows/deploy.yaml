@@ -34,14 +34,21 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Maven
-        run: | 
-          mkdir -p ~/.m2
-          echo "<settings><servers><server><id>github</id><username>${{ github.actor }}</username><password>${{ secrets.GITHUB_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
-          mvn clean install -DskipTests=true
+      - name: Install lib Maven
+        run: mvn install:install-file -Dfile='./lib/grpc-proto-0.0.1.jar' -DgroupId='com.xxx' -DartifactId='grpc-proto' -Dversion='0.0.1' -Dpackaging='jar' -DgeneratePom='true'
 
-      - name: Build Docker image
+      - name: Build with Maven
         run: |
-          docker buildx build --platform linux/amd64,linux/arm64 \
-            -t ghcr.io/${{ github.repository }}:${{ github.sha }} \
-            --push .
+          mvn clean install -DskipTests=true -B -X -e
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
