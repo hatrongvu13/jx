@@ -3,7 +3,7 @@ spring:
     graphiql:
       enabled: true
   datasource:
-    url: jdbc:postgresql://${DATABASE_POSTGRES_IP:14.188.230.247}:${POSTGRES_PORT:5432}/${DATABASE_SCHEMA:jx}
+    url: ${DATASOURCE_URL:jdbc:postgresql://postgres:5432/jx}
     username: admin
     password: password
     driver-class-name: org.postgresql.Driver
