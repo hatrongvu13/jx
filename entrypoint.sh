@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 mkdir -p /otp/service/resources
 
 if [ -z "$(ls -A /otp/service/resources)" ]; then

@@ -13,4 +13,7 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 RUN chgrp -R 0 ./ && chmod -R g=u ./
+
+RUN ls -l /
+
 ENTRYPOINT ["/entrypoint.sh"]
