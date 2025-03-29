@@ -1,12 +1,12 @@
 package com.xxx.jx.controller;
 
-import com.xxx.jx.data.entity.Book;
+import com.xxx.jx.data.dto.Book;
+import com.xxx.jx.data.entity.BookEntity;
 import com.xxx.jx.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.Optional;
@@ -22,15 +22,20 @@ public class BookController {
 
     @QueryMapping
     public Optional<Book> bookById(@Argument Long id) {
-        return bookRepository.findById(id);
+        BookEntity bookEntity = bookRepository.findById(id).orElse(null);
+        if (bookEntity == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new Book(bookEntity.getId(), bookEntity.getTitle(), bookEntity.getAuthor()));
     }
 
     @MutationMapping
     public Book createBook(@Argument String title, @Argument String author) {
-        Book book = new Book();
+        BookEntity book = new BookEntity();
         book.setTitle(title);
         book.setAuthor(author);
-        return bookRepository.save(book);
+        bookRepository.save(book);
+        return new Book(book.getId(), book.getTitle(), book.getAuthor());
     }
 
 }
