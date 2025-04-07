@@ -4,8 +4,8 @@ spring:
       enabled: true
   datasource:
     url: ${DATASOURCE_URL:jdbc:postgresql://192.168.1.10:5432/user-manager}
-    username: admin
-    password: password
+    username: ${DATASOURCE_USER:root}
+    password: ${DATASOURCE_PASSWORD:root}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
